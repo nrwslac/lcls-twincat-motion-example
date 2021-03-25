@@ -26,15 +26,74 @@ VAR
     '}
     M3: DUT_MotionStage;
     fbMotion3: FB_MotionStage;
+    
+    // Simulated PPM motor with PMPS
+    {attribute 'pytmc' := '
+        pv: PLC:TST:MOT:SIM:04
+        field: DESC Simulated PPM Motor
+    '}
+    M4: DUT_MotionStage;
+    {attribute 'pytmc' := '
+        pv: PLC:TST:MOT:SIM:04
+    '}
+    fbPPM: FB_PPM;
+    
+    // PMPS Machinery
+    fbArbiterIO: FB_SubSysToArbiter_IO;
+    {attribute 'pytmc' := 'pv: PLC:TST:MOT:ARB'}
+    fbArbiter: FB_Arbiter(1);
+    {attribute 'pytmc' := 'pv: PLC:TST:MOT:FFO'}
+    fbFFHWO: FB_HardwareFFOutput := (bAutoReset := TRUE);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbMotion1(stMotionStage := M1);
 fbMotion2(stMotionStage := M2);
-fbMotion3(stMotionStage := M3);
+
 M3.bHardwareEnable := TRUE;
 M3.bPowerSelf := TRUE;
 M3.bLimitForwardEnable := M3.Axis.NcToPlc.ActPos < 99.7;
-M3.bLimitBackwardEnable := M3.Axis.NcToPlc.ActPos > 0.2;]]></ST>
+M3.bLimitBackwardEnable := M3.Axis.NcToPlc.ActPos > 0.2;
+
+fbMotion3(stMotionStage := M3);
+
+M4.bHardwareEnable := TRUE;
+M4.bPowerSelf := FALSE;
+M4.bLimitForwardEnable := TRUE;
+M4.bLimitBackwardEnable := TRUE;
+
+fbPPM.nTransitionAssertionID := 16#2FF0;
+fbPPM.nUnknownAssertionID := 16#2FF9;
+fbPPM.stOut.fPosition := -10;
+fbPPM.stOut.bUseRawCounts := FALSE;
+fbPPM.stOut.nRequestAssertionID := 16#2FF1;
+fbPPM.stOut.stBeamParams := PMPS_GVL.cstFullBeam;
+fbPPM.stOut.bValid := TRUE;
+fbPPM.stPower.fPosition := -50;
+fbPPM.stPower.bUseRawCounts := FALSE;
+fbPPM.stPower.nRequestAssertionID := 16#2FF2;
+fbPPM.stPower.stBeamParams := PMPS_GVL.cstFullBeam;
+fbPPM.stPower.bValid := TRUE;
+fbPPM.stYag1.fPosition := -70;
+fbPPM.stYag1.bUseRawCounts := FALSE;
+fbPPM.stYag1.nRequestAssertionID := 16#2FF3;
+fbPPM.stYag1.stBeamParams := PMPS_GVL.cstFullBeam;
+fbPPM.stYag1.bValid := TRUE;
+fbPPM.stYag2.fPosition := -100;
+fbPPM.stYag2.bUseRawCounts := FALSE;
+fbPPM.stYag2.nRequestAssertionID := 16#2FF4;
+fbPPM.stYag2.stBeamParams := PMPS_GVL.cstFullBeam;
+fbPPM.stYag2.bValid := TRUE;
+
+fbPPM(
+    stYStage:=M4,
+    fbArbiter:=fbArbiter,
+    fbFFHWO:=fbFFHWO,
+    );
+    
+fbFFHWO.Execute();
+fbArbiterIO(
+    Arbiter:=fbArbiter,
+    fbFFHWO:=fbFFHWO);]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
