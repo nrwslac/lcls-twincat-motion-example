@@ -12,8 +12,8 @@ VAR
     fbMotion1: FB_MotionStageSim;
     
     {attribute 'pytmc' := '
-      pv: M9X9:TST:MIRROR:STATE:SET
-      io: i
+      pv: M9X9:TST:MIRROR:STATE:SET;
+      io: i;
     '}
     M9X9_Mirror_enumSet : ENUM_Mirror_States;
     {attribute 'pytmc' := '
