@@ -14,8 +14,8 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
     {attribute 'pytmc' := '
-      pv: GET
-      io: i
+      pv: GET;
+      io: i;
     '}
     enumGet : ENUM_Mirror_States;
   END_VAR
