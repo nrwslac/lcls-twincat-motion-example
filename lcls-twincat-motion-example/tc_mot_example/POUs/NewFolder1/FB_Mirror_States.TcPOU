@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_Mirror_States" Id="{f3fcd688-0d5b-4d3a-a8bb-d0634527a64d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Mirror_States EXTENDS FB_PositionStateBase_WithPMPS
+VAR_INPUT
+    enumSet : INT;
+    stM9X9 : DUT_PositionState;
+    sINtype : STRING := '';
+    nINPosition : UDINT;
+    fINDelta : LREAL;
+    fINVelocity : LREAL;
+    
+    
+END_VAR
+VAR_OUTPUT
+    {attribute 'pytmc' := '
+      pv : GET
+      io : i
+    '}
+    enumGet : ENUM_Mirror_States;
+  END_VAR
+VAR
+    bInitState : BOOL := TRUE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[if bInitState THEN
+    bInitState := FALSE;
+    stM9X9.bUseRawCounts := FALSE;
+    stM9X9.bMoveOk := TRUE;
+    stM9X9.bValid := TRUE;
+    //stM9X9.nRequestAssertionID := nTransitionAssertionID + 1;
+    stM9X9.sName := sINtype;
+    stM9X9.fPosition := nINPosition;
+    stM9X9.fDelta := fINDelta;
+    stM9X9.fVelocity := fINVelocity;
+    
+    arrStates[1] := stM9X9;
+END_IF
+
+setState := enumSet;
+Exec();
+enumGet := getState;
+enumSet := setState;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

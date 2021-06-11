@@ -15,16 +15,23 @@
     <LibraryReferences>{b7bab649-b18f-4421-a81c-7a3381e3f2d7}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ENUM_Mirror_States.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Main.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\NewFolder1\FB_Mirror_States.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\NewFolder1" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

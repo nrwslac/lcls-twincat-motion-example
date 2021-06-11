@@ -5,11 +5,32 @@
 VAR
     // Simulated motor that is always allowed to move
     {attribute 'pytmc' := '
-        pv: PLC:TST:MOT:SIM:01
+        pv: M9X9:TST:MMS:XUP
         field: DESC Simulated Working Motor
     '}
     M1: DUT_MotionStage;
     fbMotion1: FB_MotionStageSim;
+    
+    {attribute 'pytmc' := '
+      pv: M9X9:TST:MIRROR:STATE:SET
+      io: i
+    '}
+    M9X9_Mirror_enumSet : ENUM_Mirror_States;
+    {attribute 'pytmc' := '
+     pv: M9X9:TST:MIRROR:STATE;
+     io: i;
+     field ZRST Unknown ;
+     field ONST IN;
+     field TWST OUT;
+     '}
+    
+    fbM9X9_States: FB_Mirror_States := (
+        bEnable := TRUE,
+        sINtype := 'IN',
+        nINPosition := 1100,
+        fINDelta := 50,
+        fINVelocity := 100
+        );
 
     // Simulated motor that is never allowed to move
     {attribute 'pytmc' := '
@@ -55,6 +76,14 @@ M3.bLimitForwardEnable := M3.Axis.NcToPlc.ActPos < 99.7;
 M3.bLimitBackwardEnable := M3.Axis.NcToPlc.ActPos > 0.2;
 
 fbMotion3(stMotionStage := M3);
+
+fbM9X9_States(
+    enumSet := M9X9_Mirror_enumSet,
+    stMotionStage := M1,
+    fbArbiter := fbArbiter,
+    fbFFHWO := fbFFHWO);
+    
+M9X9_Mirror_enumSet := fbM9X9_States.setState;
 
 M4.bHardwareEnable := TRUE;
 M4.bPowerSelf := FALSE;
