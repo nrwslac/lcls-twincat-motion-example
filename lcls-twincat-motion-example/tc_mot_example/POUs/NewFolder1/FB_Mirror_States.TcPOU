@@ -13,7 +13,7 @@ VAR_INPUT
     fINVelocity : LREAL;
     
     sOUTtype : STRING := '';
-    nOUTPosition : LREAL;
+    nOUTPosition : UDINT;
     fOUTDelta : LREAL;
     fOUTVelocity : LREAL;
     

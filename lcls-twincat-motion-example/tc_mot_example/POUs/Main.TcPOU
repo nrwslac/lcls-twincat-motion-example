@@ -14,9 +14,6 @@ VAR
     {attribute 'pytmc' := '
       pv: M9X9:TST:MIRROR:STATE:SET;
       io: io;
-     field: ZRST Unknown ;
-     field: ONST IN;
-     field: TWST OUT;
     '}
     M9X9_Mirror_enumSet : ENUM_Mirror_States;
     {attribute 'pytmc' := '
