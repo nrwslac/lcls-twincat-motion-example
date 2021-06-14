@@ -23,7 +23,6 @@ VAR
      field: ONST IN;
      field: TWST OUT;
      '}
-    
     fbM9X9_States: FB_Mirror_States := (
         bEnable := TRUE,
         sINtype := 'IN',
