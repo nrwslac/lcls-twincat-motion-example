@@ -14,21 +14,26 @@ VAR
     {attribute 'pytmc' := '
       pv: M9X9:TST:MIRROR:STATE:SET;
       io: io;
+     field: ZRST Unknown ;
+     field: ONST IN;
+     field: TWST OUT;
     '}
     M9X9_Mirror_enumSet : ENUM_Mirror_States;
     {attribute 'pytmc' := '
      pv: M9X9:TST:MIRROR:STATE;
      io: io;
-     field: ZRST Unknown ;
-     field: ONST IN;
-     field: TWST OUT;
      '}
     fbM9X9_States: FB_Mirror_States := (
         bEnable := TRUE,
         sINtype := 'IN',
         nINPosition := 1100,
         fINDelta := 50,
-        fINVelocity := 100
+        fINVelocity := 100,
+        
+        sOUTtype := 'OUT',
+        nOUTPosition := 100,
+        fOUTDelta := 50,
+        fOUTVelocity := 100
         );
 
     // Simulated motor that is never allowed to move

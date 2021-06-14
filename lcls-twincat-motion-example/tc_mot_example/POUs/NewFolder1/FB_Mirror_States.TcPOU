@@ -4,12 +4,18 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Mirror_States EXTENDS FB_PositionStateBase_WithPMPS
 VAR_INPUT
     enumSet : INT;
-    stM9X9 : DUT_PositionState;
+    stM9X9IN : DUT_PositionState;
+    stM9X9OUT : DUT_PositionState;
+    
     sINtype : STRING := '';
     nINPosition : UDINT;
     fINDelta : LREAL;
     fINVelocity : LREAL;
     
+    sOUTtype : STRING := '';
+    nOUTPosition : LREAL;
+    fOUTDelta : LREAL;
+    fOUTVelocity : LREAL;
     
 END_VAR
 VAR_OUTPUT
@@ -26,16 +32,27 @@ END_VAR
     <Implementation>
       <ST><![CDATA[if bInitState THEN
     bInitState := FALSE;
-    stM9X9.bUseRawCounts := FALSE;
-    stM9X9.bMoveOk := TRUE;
-    stM9X9.bValid := TRUE;
+    stM9X9IN.bUseRawCounts := FALSE;
+    stM9X9IN.bMoveOk := TRUE;
+    stM9X9IN.bValid := TRUE;
     //stM9X9.nRequestAssertionID := nTransitionAssertionID + 1;
-    stM9X9.sName := sINtype;
-    stM9X9.fPosition := nINPosition;
-    stM9X9.fDelta := fINDelta;
-    stM9X9.fVelocity := fINVelocity;
+    stM9X9IN.sName := sINtype;
+    stM9X9IN.fPosition := nINPosition;
+    stM9X9IN.fDelta := fINDelta;
+    stM9X9IN.fVelocity := fINVelocity;
     
-    arrStates[1] := stM9X9;
+    stM9X9OUT.bUseRawCounts := FALSE;
+    stM9X9OUT.bMoveOk := TRUE;
+    stM9X9OUT.bValid := TRUE;
+    stM9X9OUT.sName := sOUTtype;
+    stM9X9OUT.fPosition := nOUTPosition;
+    stM9X9OUT.fDelta := fOUTDelta;
+    stM9X9OUT.fVelocity := fOUTVelocity;
+    
+    
+    
+    arrStates[1] := stM9X9IN;
+    arrStates[2] := stM9X9OUT;
 END_IF
 
 setState := enumSet;
