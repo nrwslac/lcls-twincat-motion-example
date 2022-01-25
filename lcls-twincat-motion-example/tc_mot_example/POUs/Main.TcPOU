@@ -73,8 +73,9 @@ fbMotion2(stMotionStage := M2);
 
 M3.bHardwareEnable := TRUE;
 M3.bPowerSelf := TRUE;
-M3.bLimitForwardEnable := M3.Axis.NcToPlc.ActPos < 99.7;
-M3.bLimitBackwardEnable := M3.Axis.NcToPlc.ActPos > 0.2;
+M3.bLimitForwardEnable := M3.Axis.NcToPlc.ActPos < 99;
+M3.bLimitBackwardEnable := M3.Axis.NcToPlc.ActPos > 1;
+
 
 fbMotion3(stMotionStage := M3);
 
